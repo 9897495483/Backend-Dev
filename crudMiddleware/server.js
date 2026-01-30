@@ -1,7 +1,11 @@
 import express from 'express';
 const app=express();
-import logFun from './middleware.js';
+import { logFun, userValidation, authMiddleware } from './middleware.js';
+import {config} from 'dotenv';
+config();//to load .env file
 app.use(express.json());//middleware to parse json body
+
+let port=process.env.PORT || 3000;
 
 //global middleware
 app.use(logFun); //mounting the middleware , isse har request pe ye middleware chalega and sare requests ko log karega
@@ -31,7 +35,7 @@ app.get('/user',(req,res)=>{
     });
 });
 
-app.post('/user',(req,res)=>{
+app.post('/user',userValidation,(req,res)=>{
     console.log(req.body);
     const {username,password}=req.body;
     //validation
@@ -62,7 +66,14 @@ app.post('/user',(req,res)=>{
     });
 })
 
-app.put('/user/:id',(req,res)=>{
+app.get('/profile', authMiddleware, (req, res) => {
+    res.status(200).json({
+        message: "Welcome to admin profile"
+    });
+});
+
+
+app.put('/user/:id',userValidation,(req,res)=>{
     let id = parseInt(req.params.id);
     let {username}=req.body;
     let userIdx=data.findIndex((ele)=>ele.id===id);
@@ -97,6 +108,6 @@ app.delete('/user/:id',(req,res)=>{
         user:userDeleted
     });
 });
-app.listen(3000,()=>{
-    console.log(`server is running on http://localhost:${3000}`);
+app.listen(port,()=>{
+    console.log(`server is running on http://localhost:${port}`);
 });
