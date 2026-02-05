@@ -6,8 +6,16 @@
     <title>Document</title>
 </head>
 <body>
+    <form action="/api/user" method="post">
+        <input type="text" name="name" placeholder="Enter your name">
+        <input type="number" name="age" placeholder="Enter your age">
+        <button type="submit">Submit</button>
+    </form>
+    <!-- url emebeded data -->
     <h1>User Data</h1>
-    <h2><%= userData.name %></h2>
-    <h2><%= userData.age %></h2>
+    <% userData.forEach((ele)=>{ %>
+        <li><%= ele.name %> 
+            <%= ele.age %></li>
+    <% }) %>
 </body>
 </html>
