@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Edit User</title>
 </head>
 <body>
-    <form action="/api/user" method="post">
-        <input type="text" name="name" placeholder="Enter your name">
-        <input type="number" name="age" placeholder="Enter your age">
-        <button type="submit">Submit</button>
+    <h1>Edit User</h1>
+    <form action="/api/user/<%= userData[0].id %>?_method=PUT" method="POST">
+    <input type="text" name="name" value="<%= userData[0].name %>" required>
+    <br>
+    <input type="number" name="age" value="<%= userData[0].age %>" required>
+    <br>
+    <button type="submit">Update User</button>
+    <br>
+    <a href="/user">back</a>
     </form>
-    <!-- url emebeded data -->
-    <h1>User Data</h1>
-    <% userData.forEach((ele)=>{ %>
-        <li><%= ele.name %> 
-            <%= ele.age %></li>
-    <% }) %>
 </body>
 </html>
