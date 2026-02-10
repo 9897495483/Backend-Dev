@@ -1,13 +1,26 @@
 import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
 
-const port = 3000;
 const app = express();
-app.use("/static",express.static('public'));
+const PORT = 3000;
 
-app.get("/",(req,res)=>{
-    res.send("home");
-})
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-app.listen(port,()=>{
-    console.log("The server is running "+port);
-})  
+app.set("view engine", "ejs");
+
+//static files
+app.use(express.static(path.join(__dirname, "public")));
+
+app.get("/", (req, res) => {
+  const images = [
+    "img1.jpg",
+    "img2.jpg",
+  ];
+  res.render("gallery", { images });
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
