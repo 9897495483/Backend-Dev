@@ -1,0 +1,111 @@
+1. Price > 500
+db.products.find({ price: { $gt: 500 } })
+
+
+2. Accessories category + stock > 50
+db.products.find({ 
+  category: "Accessories", 
+  stock: { $gt: 50 } 
+})
+
+
+3. RAM = 8GB
+db.products.find({ speces: "8GB" })
+
+
+4. Tag = "gaming"
+db.products.find({ tags: "gaming" })
+
+
+5. Sort by price (descending)
+db.products.find().sort({ price: -1 })
+
+
+6. Top 5 cheapest products
+db.products.find().sort({ price: 1 }).limit(5)
+
+
+7. Count products in "Phones"
+db.products.countDocuments({ category: "Phones" })
+
+
+8. Stock between 20 and 100
+db.products.find({ 
+  stock: { $gte: 20, $lte: 100 } 
+})
+
+
+9. Only name and price (exclude _id)
+db.products.find({}, { _id: 0, name: 1, price: 1 })
+
+
+10. Price > 500 AND category = "Laptops"
+db.products.find({ 
+  price: { $gt: 500 }, 
+  category: "Laptops" 
+})
+
+
+11. Price between 100 and 500
+db.products.find({ 
+  price: { $gte: 100, $lte: 500 } 
+})
+
+
+12. Category NOT "Accessories"
+db.products.find({ 
+  category: { $ne: "Accessories" } 
+})
+
+
+13. Stock < 20
+db.products.find({ 
+  stock: { $lt: 20 } 
+})
+
+
+14. BOTH "gaming" and "office" tags
+db.products.find({ 
+  tags: { $all: ["gaming", "office"] } 
+})
+
+
+15. Storage ≥ 512
+db.products.find({ 
+  storage: { $gte: 512 } 
+})
+
+
+16. Total stock of all products
+db.products.aggregate([
+  { $group: { _id: null, totalStock: { $sum: "$stock" } } }
+])
+
+
+17. Highest priced product
+db.products.find().sort({ price: -1 }).limit(1)
+
+
+18. Name contains "Phone"
+db.products.find({ 
+  name: { $regex: "Phone", $options: "i" } 
+})
+
+
+19. Count + avg price per category
+db.products.aggregate([
+  {
+    $group: {
+      _id: "$category",
+      count: { $sum: 1 },
+      avgPrice: { $avg: "$price" }
+    }
+  }
+])
+
+
+20. Stock > 50 AND price < 200
+db.products.find({ 
+  stock: { $gt: 50 }, 
+  price: { $lt: 200 } 
+})
